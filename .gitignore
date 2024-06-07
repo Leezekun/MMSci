@@ -1,0 +1,39 @@
+# mmsci-data
+mmsci-data/benchmark/
+mmsci-data/rawdata/**/
+mmsci-data/pretraindata/
+mmsci-data/__pycache__/
+
+# mmsci-exps
+mmsci-exps/wandb
+mmsci-exps/checkpoints/
+mmsci-exps/eval/output/
+mmsci-exps/__pycache__/
+
+# plotting
+plotting/
+pics/
+scp.sh
+test.py
+
+# Python
+__deprecated__/
+__pycache__/
+*.pyc
+*.egg-info
+dist
+
+# Log
+*.log
+*.log.*
+
+# Editor
+.idea
+*.swp
+.DS_Store
+wandb
+
+# DevContainer
+!.devcontainer/*
+
+

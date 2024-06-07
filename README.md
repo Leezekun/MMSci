@@ -1,0 +1,140 @@
+# MMSci
+contains all the data and code related to the paper **MMSci: A Multimodal Multi-discipline Dataset for Graduate-Level Scientific Comprehension**
+
+## Table of Contents
+- [Overview](#overview)
+- [Dataset](#dataset)
+- [Benchmark Evaluation & Visual Instruction Tuning](#benchmark)
+- [Pre-training on Interleaved data](#pretraining)
+- [Materials Generation](#matgen)
+
+## Overview
+The code and experiments of this project can be structured into four main parts:
+1. **Dataset**: Contains all the necessary files for dataset download, collection, and processing. This can be found in the `mmsci-data` directory.
+2. **Benchmark Evaluation & Visual Instruction Tuning**: Involves the creation of benchmark data and visual instruction tuning. Instructions and scripts are available in the `mmsci-exps` directory.
+3. **Pre-training on Interleaved Data**: Focuses on pretraining the LLaMA2-7B model using our interleaved multimodal dataset. 
+4. **Material Generation**: Evaluates the LLaMA2-7B model pretrained on our data on the task of material generation. 
+
+## Dataset
+The mmsci-data directory contains all the necessary files for dataset collection and processing. For detailed information, refer to the `./mmsci-data/README.md`.
+ - **Data Card**: Comprehensive details about our dataset can be found in the  `./mmsci-data/DATASET_CARD.md`
+ - **License**: Review the licensing terms for our dataset at `./mmsci-data/LICENSE`
+
+Ensure that the data preparation step is completed before proceeding with any experiments. Ensure that you have prepared the following data files in their respective locations:
+ - **rawdata**: This is the source dataset containing all articles and associated figures.
+ - **benchmark**: Includes the test/dev sets for benchmark evaluations and the training data for visual instruction tuning.
+ - **pretraindata**: Contains the interleaved data necessary for pre-training the model in the Pre-training section.
+
+## Benchmark Evaluation & Visual Instruction Tuning
+Once the dataset is ready, head over to the `mmsci-exps` directory for instructions on performing visual instruction tuning and benchmark evaluations. Detailed guidelines are provided in the `./mmsci-exps/README.md`.
+
+## Pre-training on Interleaved data
+In the pre-training phase, we use our prepared interleaved data in `mmsci-data/pretraindata` to continue pre-training a LLaMA2-7B model. 
+
+### Setup VILA
+We use the codebase of [VILA](https://github.com/Efficient-Large-Model/VILA) for pre-training vision language models on interleaved data.
+
+Clone the VILA environment and switch to the version we use as follows:
+```bash
+git clone https://github.com/Efficient-Large-Model/VILA.git
+cd VILA
+git checkout eaadb1e55a088978ce06abb6242edc251fb4665a
+```
+Follow the environment setup and data preparation instructions provided in the VILA project.
+
+### Register Our Data MMSci
+Ensure the data in `mmsci-data/pretraindata` has been prepared in the Dataset section, and move it to `VILA/playground/data/mmsci`. 
+
+Then, modify the `datasets_mixture.py` file in the `VILA/llava/data` directory. Locate the `register_datasets_mixtures` function and add the following code to register the MMSci dataset:
+```python
+mmsci = Dataset(
+        dataset_name='mmsci',
+        dataset_type='mmc4',
+        data_path='./playground/data/mmsci/all')
+add_dataset(mmsci)
+```
+
+Then, add this line at the end of the code:
+```python
+DATASETS_MIXTURES.update({'mmc4core_mmsci': [mmc4core,mmsci]})
+```
+
+### Pre-training
+After setting up the environment and registering the MMSci dataset, you can proceed with the pre-training of the model. The pre-training process in VILA involves two main stages.
+
+#### Stage 1: Alignment
+To align the textual and visual modalities, follow the alignment instructions provided in the VILA repository. Use the LLaVA-CC3M-Pretrain-595K dataset for this process. Execute the alignment script with the following command:
+```bash
+bash scripts/v1_5/paper/1_mm_align.sh [BASE_MODEL_PATH] [OUTPUT_NAME]
+```
+
+In our experiments, we set `BASE_MODEL_PATH` to the path of the base model, which is `meta-llama/Llama-2-7b-hf`. We use `llama2-7b-mm-align-mlp2x`as the `OUTPUT_NAME` to save the aligned model. Therefore, the command becomes::
+```bash
+bash scripts/v1_5/paper/1_mm_align.sh meta-llama/Llama-2-7b-hf ./checkpoints/llama2-7b-mm-align-mlp2x
+```
+
+#### Stage 2: Pre-training
+We have prepared a script for pre-training the model using our data, located at `./VILA/2_pretrain_mmc4_mmsci.sh`. To initiate the pre-training process, execute the script with the following command:
+```
+bash 2_pretrain_mmc4_mmsci.sh [CODE_PATH] [BASE_MODEL_PATH] [STAGE1_PATH] [OUTPUT_NAME]
+```
+`CODE_PATH` is the absolute path to the VILA codebase, `BASE_MODEL_PATH` has similar meaning to what is presented in the alignment stage script, which is `meta-llama/Llama-2-7b-hf` in our experiments. `STAGE1_PATH` points to the OUTPUT_NAME of stage 1 (i.e. where the stage 1 checkpoint is stored), which is `llama2-7b-mm-align-mlp2x` in our case. `OUTPUT_NAME` is the desired folder name under checkpoints that saves the pre-training checkpoint. We use `llama2-7b-mmsci` in our case. The trained model is then saved at `VILA/checkpoints/llama2-7b-mmsci`.
+
+
+## Material Generation
+In this phase, we use the pre-trained model from the previous pre-training phase as the base model for fine-tuning on material generation tasks. For this, we utilize the [crystal-text-llm](https://github.com/facebookresearch/crystal-text-llm) codebase.
+
+### Install
+First, clone the crystal-text-llm repository and navigate to its directory:
+```bash
+git clone https://github.com/facebookresearch/crystal-text-llm.git
+cd crystal-text-llm
+```
+Follow the setup instructions in the crystal-text-llm repository to configure the environment and prepare the data. You can refer to the detailed [installation guide](https://github.com/Efficient-Large-Model/VILA#installation).
+
+### Fine-tuning
+Next, fine-tune the pretrained model saved in `VILA/checkpoints/llama2-7b-mmsci` for material generation. Use the following command to initiate fine-tuning:
+```bash
+CUDA_VISIBLE_DEVICES=0 python llama_finetune.py \
+                        --run-name llama2-7b-mmsci \
+                        --model_name ../VILA/checkpoints/llama2-7b-mmsci \
+                        --batch-size 1 \
+                        --num-epochs 1 \
+                        --fp8
+```
+
+### Sampling
+After fine-tuning, generate samples using the fine-tuned model with the following command:
+```bash
+CUDA_VISIBLE_DEVICES=0 python llama_sample.py \
+                        --model_name llama2-7b-mmsci \
+                        --temperature 0.7 \
+                        --top_p 0.7 \
+                        --batch_size 32 \
+                        --num_samples 10000 \
+                        --model_name ../VILA/checkpoints/llama2-7b-mmsci \
+                        --model_path ./exp/llama2-7b-mmsci/checkpoint-27000 \
+                        --out_path ./saved_samples/llama2-7b-mmsci_0.7_0.7.csv
+```
+We provided the generated samples by our model in `llama2-7b-mmsci_0.7_0.7.csv`.
+
+### Evaluation
+Finally, evaluate the generated materials using the following script:
+```
+python basic_eval.py \
+        --model_name llama2-7b-mmsci \
+        --samples_path ./saved_samples/llama2-7b-mmsci_0.7_0.7.csv
+```
+
+## Acknowledgement
+We gratefully acknowledge the following projects and codebases that have significantly contributed to our work:
+- [LLaVA](https://github.com/haotian-liu/LLaVA): We use this codebase and its checkpoints in our visual instruction tuning process. 
+- [VILA](https://github.com/Efficient-Large-Model/VILA): The codebase served as the foundation for our pre-training on interleaved multimodal data. 
+- [crystal-text-llm](https://github.com/facebookresearch/crystal-text-llm): We leveraged this codebase for conducting experiments related to material generation.
+
+## Licenses
+[![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-green.svg)](https://github.com/haotian-liu/LLaVA/blob/main/LICENSE)
+
+**Usage and License Notices**: This project incorporates various data, checkpoints, and codebases, each governed by their respective licenses. Users are required to adhere to the terms and conditions outlined in these licenses. Key licenses include:
+- **Codebase License**: The primary codebase for our project is licensed under the Apache 2.0 License.
+- **Data License**: Our dataset is licensed under the CC BY 4.0 license, which allows for sharing and adaptation with proper attribution. 
