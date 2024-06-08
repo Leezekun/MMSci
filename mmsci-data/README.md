@@ -1,6 +1,6 @@
 
 # Data Downloading for MMSci
-We provide the instructions for downloading our data in this `README.md` file. For a detailed description of the dataset, please refer to `DATACARD.md`.
+We provide the instructions for downloading our data in this `README.md` file. For a detailed description of the dataset, please refer to [DATACARD.md](./DATACARD.md).
 
 ## Source Data
 
