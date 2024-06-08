@@ -5,7 +5,7 @@ contains all the data and code related to the paper **MMSci: A Multimodal Multi-
 - [Overview](#overview)
 - [Dataset](#dataset)
 - [Benchmark Evaluation & Visual Instruction Tuning](#benchmark)
-- [Pre-training on Interleaved data](#pretraining)
+- [Pre-training on Interleaved data](#pre-training)
 - [Materials Generation](#matgen)
 - [Resources](#resources)
 
@@ -13,26 +13,26 @@ contains all the data and code related to the paper **MMSci: A Multimodal Multi-
 The code and experiments of this project can be structured into four main parts:
 1. **Dataset**: Contains all the necessary files for dataset download, collection, and processing. This can be found in the `mmsci-data` directory.
 2. **Benchmark Evaluation & Visual Instruction Tuning**: Involves the creation of benchmark data and visual instruction tuning. Instructions and scripts are available in the `mmsci-exps` directory.
-3. **Pre-training on Interleaved Data**: Focuses on pretraining the LLaMA2-7B model using our interleaved multimodal dataset. 
-4. **Material Generation**: Evaluates the LLaMA2-7B model pretrained on our data on the task of material generation. 
+3. **Pre-training on Interleaved Data**: Focuses on pre-training the LLaMA2-7B model using our interleaved multimodal dataset. 
+4. **Material Generation**: Evaluates the LLaMA2-7B model pre-trained on our data on the task of material generation. 
 
 We put this codebase under the `/home/ubuntu` directory, specifically at `/home/ubuntu/MMSci`. Please replace this path with the path where you have placed this code on your system.
 
 ## Dataset
 The mmsci-data directory contains all the necessary data for benchmark evaluation, visual instruction tuning, and pre-training on interleaved data. For detailed information, refer to the `./mmsci-data/README.md`.
- - **Data Card**: Comprehensive details about our dataset can be found in the  `./mmsci-data/DATASET_CARD.md`
+ - **Data Card**: Comprehensive details about our dataset can be found in the  `./mmsci-data/DATACARD.md`
  - **License**: Review the licensing terms for our dataset at `./mmsci-data/LICENSE`
 
 Ensure that the data preparation step is completed before proceeding with any experiments. Ensure that you have prepared the following data files in their respective locations:
  - **rawdata**: This is the source dataset containing all articles and associated figures.
  - **benchmark**: Includes the test/dev sets for benchmark evaluations and the training data for visual instruction tuning.
- - **pretraindata**: Contains the interleaved data necessary for pre-training the model in the Pre-training phase.
+ - **pre-traindata**: Contains the interleaved data necessary for pre-training the model in the Pre-training phase.
 
 ## Benchmark Evaluation & Visual Instruction Tuning
 Once the dataset is ready, head over to the `mmsci-exps` directory for instructions on performing visual instruction tuning and benchmark evaluations. Detailed guidelines are provided in the `./mmsci-exps/README.md`.
 
 ## Pre-training on Interleaved data
-In the pre-training phase, we use our prepared interleaved data in `mmsci-data/pretraindata` to continue pre-training a LLaMA2-7B model. 
+In the pre-training phase, we use our prepared interleaved data in `mmsci-data/pre-traindata` to continue pre-training a LLaMA2-7B model. 
 
 ### Setup VILA
 We use the codebase of [VILA](https://github.com/Efficient-Large-Model/VILA) for pre-training vision language models on interleaved data.
@@ -46,7 +46,7 @@ git checkout eaadb1e55a088978ce06abb6242edc251fb4665a
 Follow the environment setup and data preparation instructions provided in the VILA project.
 
 ### Register Our Data MMSci
-Ensure the data in `mmsci-data/pretraindata/shards` has been prepared in the Dataset phase, and move it to `VILA/playground/data/mmsci`. 
+Ensure the data in `mmsci-data/pre-traindata/shards` has been prepared in the Dataset phase, and move it to `VILA/playground/data/mmsci`. 
 
 Then, modify the `datasets_mixture.py` file in the `VILA/llava/data` directory by locating the `register_datasets_mixtures` function and adding the following code to register the MMSci dataset:
 ```python
@@ -67,7 +67,7 @@ DATASETS_MIXTURES.update({'mmc4core_mmsci': [mmc4core,mmsci]})
 After setting up the environment and registering the MMSci dataset, you can proceed with the pre-training of the model. The pre-training process in VILA involves two main stages.
 
 #### Stage 1: Alignment
-To align the textual and visual modalities, follow the alignment instructions provided in the VILA repository. Use the LLaVA-CC3M-Pretrain-595K dataset for this process. Execute the alignment script with the following command:
+To align the textual and visual modalities, follow the alignment instructions provided in the VILA repository. Use the LLaVA-CC3M-pre-train-595K dataset for this process. Execute the alignment script with the following command:
 ```bash
 bash scripts/v1_5/paper/1_mm_align.sh [BASE_MODEL_PATH] [OUTPUT_NAME]
 ```
@@ -78,9 +78,9 @@ bash scripts/v1_5/paper/1_mm_align.sh meta-llama/Llama-2-7b-hf ./checkpoints/lla
 ```
 
 #### Stage 2: Pre-training
-We have prepared a script for pre-training the model using our data, located at `./resources/2_pretrain_mmc4_mmsci.sh`. To initiate the pre-training process, move the script in the VILA codebase and execute it with the following command:
+We have prepared a script for pre-training the model using our data, located at `./resources/2_pre-train_mmc4_mmsci.sh`. To initiate the pre-training process, move the script in the VILA codebase and execute it with the following command:
 ```
-bash 2_pretrain_mmc4_mmsci.sh [CODE_PATH] [BASE_MODEL_PATH] [STAGE1_PATH] [OUTPUT_NAME]
+bash 2_pre-train_mmc4_mmsci.sh [CODE_PATH] [BASE_MODEL_PATH] [STAGE1_PATH] [OUTPUT_NAME]
 ```
 `CODE_PATH` is the absolute path to the VILA codebase, `BASE_MODEL_PATH` has similar meaning to what is presented in the alignment stage script, which is `meta-llama/Llama-2-7b-hf` in our experiments. `STAGE1_PATH` points to the OUTPUT_NAME of stage 1 (i.e. where the stage 1 checkpoint is stored), which is `llama2-7b-mm-align-mlp2x` in our case. `OUTPUT_NAME` is the desired folder name under checkpoints that saves the pre-training checkpoint. We use `llama2-7b-mmsci` in our case. The trained model is then saved at `VILA/checkpoints/llama2-7b-mmsci`.
 
@@ -97,7 +97,7 @@ cd crystal-text-llm
 Follow the setup instructions in the crystal-text-llm repository to configure the environment and prepare the data. You can refer to the detailed [installation guide](https://github.com/Efficient-Large-Model/VILA#installation).
 
 ### Fine-tuning
-Next, fine-tune the pretrained model saved in `VILA/checkpoints/llama2-7b-mmsci` for material generation. Use the following command to initiate fine-tuning:
+Next, fine-tune the pre-trained model saved in `VILA/checkpoints/llama2-7b-mmsci` for material generation. Use the following command to initiate fine-tuning:
 ```bash
 CUDA_VISIBLE_DEVICES=0 python llama_finetune.py \
                         --run-name llama2-7b-mmsci \
@@ -135,7 +135,7 @@ We provide various downloadable resources for our MMSci project. Below is a list
 1. **mmsci-data**: this includes all the data you can download regarding our MMSci data, including:
  - **rawdata**: The raw (source) data of our dataset can be download [here](https://mmsci.s3.amazonaws.com/rawdata.zip).
  - **benchmark**: The benchmark dataset, including the data for visual instruction tuning, is available for download [here](https://mmsci.s3.amazonaws.com/benchmark.zip).
- - **pretraindata**: Interleaved data formatted for pre-training on multimodal datasets can be downloaded [here](https://mmsci.s3.amazonaws.com/pretraindata.zip).
+ - **pre-traindata**: Interleaved data formatted for pre-training on multimodal datasets can be downloaded [here](https://mmsci.s3.amazonaws.com/pre-traindata.zip).
 2. **checkpoints**: 
  - **LLaVA-Next-MMSci**: The LLaVA-Next model fine-tuned on our visual instruction-following data is available [here](https://mmsci.s3.amazonaws.com/checkpoints.zip).
 
