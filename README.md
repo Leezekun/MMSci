@@ -132,11 +132,11 @@ python basic_eval.py \
 
 ## Resources
 We provide various downloadable resources for our MMSci project. Below is a list of the available resources and their corresponding download links:
-- **mmsci-data**: this includes all the data you can download regarding our MMSci data, including:
+1. **mmsci-data**: this includes all the data you can download regarding our MMSci data, including:
  - **rawdata**: The raw (source) data of our dataset can be download [here](https://mmsci.s3.amazonaws.com/rawdata.zip).
  - **benchmark**: The benchmark dataset, including the data for visual instruction tuning, is available for download [here](https://mmsci.s3.amazonaws.com/benchmark.zip).
  - **pretraindata**: Interleaved data formatted for pre-training on multimodal datasets can be downloaded [here](https://mmsci.s3.amazonaws.com/pretraindata.zip).
-- **checkpoints**: 
+2. **checkpoints**: 
  - **LLaVA-Next-MMSci**: The LLaVA-Next model fine-tuned on our visual instruction-following data is available [here](https://mmsci.s3.amazonaws.com/checkpoints.zip).
 
 
