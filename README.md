@@ -26,13 +26,13 @@ The mmsci-data directory contains all the necessary data for benchmark evaluatio
 Ensure that the data preparation step is completed before proceeding with any experiments. Ensure that you have prepared the following data files in their respective locations:
  - **rawdata**: This is the source dataset containing all articles and associated figures.
  - **benchmark**: Includes the test/dev sets for benchmark evaluations and the training data for visual instruction tuning.
- - **pre-traindata**: Contains the interleaved data necessary for pre-training the model in the Pre-training phase.
+ - **pretraindata**: Contains the interleaved data necessary for pre-training the model in the Pre-training phase.
 
 ## Benchmark Evaluation & Visual Instruction Tuning
 Once the dataset is ready, head over to the `mmsci-exps` directory for instructions on performing visual instruction tuning and benchmark evaluations. Detailed guidelines are provided in the `./mmsci-exps/README.md`.
 
 ## Pre-training on Interleaved data
-In the pre-training phase, we use our prepared interleaved data in `mmsci-data/pre-traindata` to continue pre-training a LLaMA2-7B model. 
+In the pre-training phase, we use our prepared interleaved data in `mmsci-data/pretraindata` to continue pre-training a LLaMA2-7B model. 
 
 ### Setup VILA
 We use the codebase of [VILA](https://github.com/Efficient-Large-Model/VILA) for pre-training vision language models on interleaved data.
@@ -46,7 +46,7 @@ git checkout eaadb1e55a088978ce06abb6242edc251fb4665a
 Follow the environment setup and data preparation instructions provided in the VILA project.
 
 ### Register Our Data MMSci
-Ensure the data in `mmsci-data/pre-traindata/shards` has been prepared in the Dataset phase, and move it to `VILA/playground/data/mmsci`. 
+Ensure the data in `mmsci-data/pretraindata/shards` has been prepared in the Dataset phase, and move it to `VILA/playground/data/mmsci`. 
 
 Then, modify the `datasets_mixture.py` file in the `VILA/llava/data` directory by locating the `register_datasets_mixtures` function and adding the following code to register the MMSci dataset:
 ```python
@@ -135,7 +135,7 @@ We provide various downloadable resources for our MMSci project. Below is a list
 1. **mmsci-data**: this includes all the data you can download regarding our MMSci data, including:
  - **rawdata**: The raw (source) data of our dataset can be download [here](https://mmsci.s3.amazonaws.com/rawdata.zip).
  - **benchmark**: The benchmark dataset, including the data for visual instruction tuning, is available for download [here](https://mmsci.s3.amazonaws.com/benchmark.zip).
- - **pre-traindata**: Interleaved data formatted for pre-training on multimodal datasets can be downloaded [here](https://mmsci.s3.amazonaws.com/pre-traindata.zip).
+ - **pretraindata**: Interleaved data formatted for pre-training on multimodal datasets can be downloaded [here](https://mmsci.s3.amazonaws.com/pretraindata.zip).
 2. **checkpoints**: 
  - **LLaVA-Next-MMSci**: The LLaVA-Next model fine-tuned on our visual instruction-following data is available [here](https://mmsci.s3.amazonaws.com/checkpoints.zip).
 
