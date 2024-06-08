@@ -1,16 +1,24 @@
 # mmsci-data
 mmsci-data/benchmark/
-mmsci-data/rawdata/**/
+mmsci-data/rawdata/
 mmsci-data/pretraindata/
+mmsci-data/scripts/prepare_*.py
+mmsci-data/scripts/process_*.py
+mmsci-data/scripts/summarize.py
+mmsci-data/scripts/anonymize.py
+mmsci-data/scripts/conversation.py
+mmsci-data/PROCESSING.md
 mmsci-data/__pycache__/
 
 # mmsci-exps
 mmsci-exps/wandb
 mmsci-exps/checkpoints/
 mmsci-exps/eval/output/
+mmsci-exps/eval/eval_scores/
 mmsci-exps/__pycache__/
 
-# plotting
+# miscellaneous
+tmp/
 plotting/
 pics/
 scp.sh
@@ -22,6 +30,7 @@ __pycache__/
 *.pyc
 *.egg-info
 dist
+*.pkl
 
 # Log
 *.log

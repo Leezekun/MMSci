@@ -36,7 +36,7 @@ def parse_args():
 
     parser.add_argument(
         '--image_dir',
-        default='/home/ubuntu/MMSci/mmsci-data/benchmark/test/images',
+        default='/home/ubuntu/MMSci/mmsci-data/benchmark/dev/images',
         type=str,
         help='Directory of images, with the filenames as image ids.')
     

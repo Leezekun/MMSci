@@ -44,15 +44,15 @@ The dataset consists of three parts:
 
 (1) **rawdata**: This is the **source dataset**, comprising articles and figures crawled from Nature Communications. You can download it directly from this URL:
 
-`https://storage.googleapis.com/lizekunlee/rawdata.zip`
+`https://mmsci.s3.amazonaws.com/rawdata.zip`
 
 (2) **benchmark**: This is the **benchmark data**, consisting of test, dev, and training sets constructed from the source dataset. The training set includes visual instruction-following data. You can download it directly from this URL:
 
-`https://storage.googleapis.com/lizekunlee/benchmark.zip`
+`https://mmsci.s3.amazonaws.com/benchmark.zip`
 
 (3) **pretraindata**: This is the interleaved text and image data used for LVLM pre-training, constructed from the source dataset using the same data splits as the benchmark data. You can download it directly from this URL:
 
-`https://storage.googleapis.com/lizekunlee/pretraindata.zip`
+`https://mmsci.s3.amazonaws.com/pretraindata.zip`
 
 
 ### Source Data
@@ -75,10 +75,10 @@ Within each subject directory, there are multiple directories, each named with a
 - `review_pdf_link`: the link of the pdf of paper review (if available)
 - `unique_id`: the unique aricle id, which is also the directory name
 - `images` contains the informaiton of the figures in this article. Each image contains:
-  - `image_filename`: image filenames under this directory
-  - `text_filename`: the text file containing the caption for this figure
-  - `caption`: the main caption for this image
-  - `description`: the detailed caption, containing sub-captions
+    - `image_filename`: image filenames under this directory
+    - `text_filename`: the text file containing the caption for this figure
+    - `caption`: the main caption for this image
+    - `description`: the detailed caption, containing sub-captions
 - `title`: article title
 - `abstract`: article abstract
 - `published_time`: article published time
@@ -132,12 +132,12 @@ textual data:
 ### Benchmark Data
 
 #### Data Splits
-The benchmark data is stored in the `benchmark` directory, concisting of train/dev/test splits. For detailed information on data splits, please refer to the paper. The unique article IDs for each split are saved in the `rawdata` directory, specifically in `./rawdata/{train/dev/test}_split_ids.json`.
+The benchmark data is stored in the `benchmark` directory, consisting of train/dev/test splits. For detailed information on data splits, please refer to the paper. 
 
 #### Figure Captioning Data
-The data is stored in `image_caption_generation_data.json` within the `./benchmark/train`, `./benchmark/dev`, and `./benchmark/test` directory, which is used for scitific figure captioning task. 
+The data is stored in `image_caption_generation_data.json` within the `./benchmark/train`, `./benchmark/dev`, and `./benchmark/test` directory, which is used for scientific figure captioning task. 
 
-Each instace contains:
+Each instance contains:
 - `uid`: the unique article ID of the article from which this sample is built
 - `category`: the category of the article from which this sample is built
 - `subject`: the subject of the article from which this sample is built
@@ -162,7 +162,7 @@ Here is an example:
 #### Multiple-Choice VQA Data
 The data is stored in `image_caption_matching_data.json` within the `./benchmark/train`, `./benchmark/dev`, and `./benchmark/test` directory, which is used for the multiple-choice VQA task. 
 
-Each instace contains:
+The data contains three settings. Each instance in a setting contains:
 - `uid`: the unique article ID of the article from which this sample is built
 - `category`: the category of the article from which this sample is built
 - `subject`: the subject of the article from which this sample is built
@@ -173,19 +173,21 @@ Each instace contains:
 Here is an example:
 ```JSON
 {
-    "uid": "ncomms15841",
+    "uid": "ncomms7884",
     "category": "Physical sciences",
     "subject": "Materials science",
-    "question": "Which of the following captions best describes the whole figure?\nA: Injection and polarization in organic ferroelectric memory diodes.\nB: Operation of organic ferroelectric memory diodes.\nC: Structure and characteristics of organic ferroelectric memory diodes.\nD: Scaling of organic ferroelectric memory diodes.",
+    "question": "which of the following options best describes the content in sub-figure (c)?\nA: Concentration-dependent (25–500 μM) UV/Vis absorption spectra ofR4·4Cl at 25 °C in water.\nB: Temperature-dependent (2–80 °C) ICD spectra (200 μM) ofR4·4Cl in water.\nC: UV/Vis absorption (solid lines) and normalised fluorescence spectra (excitation: dashed lines, emission: dotted lines) of aqueous solutions ofR4·4Cl (green), stopper1·Cl (red) and dumbbell precursor2·2Cl (blue).\nD: Normalised concentration-dependent (25–500 μM) fluorescence emission spectra (λexcitation=341 nm) ofR4·4Cl at 25 °C in water.",
     "answer": "D",
-    "image": "ncomms15841_figure_3.png"
-}
+    "image": "ncomms7884_figure_1.png"
+},
 ```
+
+**Answer Anonymized**: Note that the answers in `./benchmark/test` directory have been anonymized to avoid data contamination. For immediate evaluation, use the dev set. We will provide evaluation scripts to allow you to submit your model's output for official assessment.
 
 #### Visual Instruction-Following Data
 The data is stored in `image_caption_chat_data.json` in the `./benchmark/train` directory, which is used for visual instruction tuning. This data is only contained in the train set.
 
-Each instace contains:
+Each instance contains:
 - `uid`: the unique article ID of the article from which this sample is built
 - `category`: the category of the article from which this sample is built
 - `subject`: the subject of the article from which this sample is built
@@ -241,7 +243,6 @@ Here is an example:
 ### Pretraining Data
 The data is stored in the `pretraindata` directory, containing interleaved article text and figure images, formated according to [mmc4](https://github.com/allenai/mmc4). For a detailed description of the data format, please refer to [this documentation](https://github.com/allenai/mmc4/blob/main/DATASET_CARD.md#data-instances).
 
-
 ### Source Data
 
 #### Initial Data Collection and Normalization
@@ -282,9 +283,7 @@ Potential risks:
 - **Data Misinterpretation and Hallucination**: There is a risk of misinterpreting the dataset's content, leading to inaccurate conclusions or misuse of scientific information. Users should critically assess and validate the AI-generated outputs against established scientific knowledge and principles.
 
 ### Other Known Limitations
-
-- The dataset is English only.
-- Currently, the evaluation benchmark focuses primaryly on understanding the figures in scientific articles. We encourage further efforts to build more comprehensive evaluations on scientific knowledge using our dataset.
+Currently, the evaluation benchmark focuses primaryly on understanding the figures in scientific articles. We encourage further efforts to build more comprehensive evaluations on scientific knowledge using our dataset.
 
 ## Additional Information
 

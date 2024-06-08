@@ -12,9 +12,9 @@ from eval.utils import create_prompt, postprocess_output
 from llava_builder import load_model
 
 argparser = argparse.ArgumentParser()
-argparser.add_argument('--input_filename', type=str, default='/home/ubuntu/MMSci/mmsci-data/benchmark/test/image_caption_matching_data.json')
+argparser.add_argument('--input_filename', type=str, default='/home/ubuntu/MMSci/mmsci-data/benchmark/dev/image_caption_matching_data.json')
 argparser.add_argument('--base_output_dir', type=str, default='./eval/output/')
-argparser.add_argument('--image_dir', type=str, default='/home/ubuntu/MMSci/mmsci-data/benchmark/test/images/')
+argparser.add_argument('--image_dir', type=str, default='/home/ubuntu/MMSci/mmsci-data/benchmark/dev/images/')
 argparser.add_argument('--task', type=str, default='image_caption_matching')
 argparser.add_argument('--model_name', type=str, default='bert-base-uncased')
 argparser.add_argument('--setting', type=int, default=3, choices=[1,2,3])
