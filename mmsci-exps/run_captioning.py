@@ -18,7 +18,7 @@ from llava.conversation import conv_templates
 from llava.mm_utils import tokenizer_image_token
 from eval.utils import str2bool
 from eval.utils import create_prompt, postprocess_output_new
-from llava_builder import load_model
+from model_loader import load_model
 
 embedding_encoding = "cl100k_base"
 encoding = tiktoken.get_encoding(embedding_encoding)

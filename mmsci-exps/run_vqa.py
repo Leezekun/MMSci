@@ -9,7 +9,7 @@ from llava.constants import IMAGE_TOKEN_INDEX, DEFAULT_IMAGE_TOKEN
 from llava.conversation import conv_templates
 from llava.mm_utils import tokenizer_image_token
 from eval.utils import create_prompt, postprocess_output
-from llava_builder import load_model
+from model_loader import load_model
 
 argparser = argparse.ArgumentParser()
 argparser.add_argument('--input_filename', type=str, default='/home/ubuntu/MMSci/mmsci-data/benchmark/dev/image_caption_matching_data.json')

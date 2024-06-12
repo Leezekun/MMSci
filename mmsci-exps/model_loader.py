@@ -11,7 +11,16 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-
+'''
+Part of code derived from (https://github.com/haotian-liu/LLaVA)
+@article{liu2024visual,
+  title={Visual instruction tuning},
+  author={Liu, Haotian and Li, Chunyuan and Wu, Qingyang and Lee, Yong Jae},
+  journal={Advances in neural information processing systems},
+  volume={36},
+  year={2024}
+}
+'''
 
 import os
 import warnings

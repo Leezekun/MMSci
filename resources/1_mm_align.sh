@@ -9,48 +9,40 @@ n_node=${SLURM_JOB_NUM_NODES:-1}
 echo "MASTER_ADDR="$MASTER_ADDR
 echo "JobID: $SLURM_JOB_ID | Full list: $worker_list"
 
-CODE_PATH=$1
+bs=${BATCH_SIZE:-8}
+acc_step=${ACC_STEP:-1}
+
 # for example, lmsys/vicuna-7b-v1.5
-BASE_MODEL_PATH=$2
-# the OUTPUT of stage 1 script
-STAGE1_PATH=$3
+BASE_MODEL_PATH=${1:-"lmsys/vicuna-7b-v1.5"}
 # for example, llava-v1.5-7b-mm-align
-OUTPUT=$4
+OUTPUT=${2:-"llava-v1.5-7b-mm-align"}
 
-#cmd: bash scripts/v1_5/paper/2_5_pretrain_mmc4_mmncall.sh /share/edc/home/zekunli/VILA meta-llama/Llama-2-7b-hf llama2-7b-mm-align-mlp2x llama2-7b-mlp2x-mmncall-mmc4core-v2-joint
+MNAME=$(echo $BASE_MODEL_PATH | rev | cut -d "/" -f 1 | rev)
 
-echo "MASTER_ADDR="$MASTER_ADDR
-echo "JobID: $SLURM_JOB_ID | Full list: $worker_list"
-
-bs=${BATCH_SIZE:-2}
-
-# gradient_accumulation_steps * n_node * bs = 1024 (suggested)
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 torchrun --nnodes=$n_node --nproc_per_node=8 --master_port=25002 \
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 torchrun --nnodes=$n_node --nproc_per_node=8 --master_port=25001 \
     --master_addr $MASTER_ADDR --node_rank=$CURRENT_RANK \
     llava/train/train_mem.py \
-    --deepspeed ./scripts/zero3.json \
+    --deepspeed ./scripts/zero2.json \
     --model_name_or_path $BASE_MODEL_PATH \
-    --version v1 \
-    --data_mixture mmc4core_mmsci \
+    --version plain \
+    --data_mixture llava_1_5_mm_align \
     --vision_tower openai/clip-vit-large-patch14-336 \
-    --pretrain_mm_mlp_adapter ./checkpoints/$STAGE1_PATH/mm_projector.bin \
     --mm_projector_type mlp2x_gelu \
+    --tune_mm_mlp_adapter True \
     --mm_vision_select_layer -2 \
     --mm_use_im_start_end False \
     --mm_use_im_patch_token False \
-    --image_aspect_ratio pad \
-    --group_by_modality_length True \
     --bf16 True \
     --output_dir ./checkpoints/$OUTPUT \
     --num_train_epochs 1 \
     --per_device_train_batch_size $bs \
     --per_device_eval_batch_size 4 \
-    --gradient_accumulation_steps 8 \
+    --gradient_accumulation_steps 4 \
     --evaluation_strategy "no" \
     --save_strategy "steps" \
-    --save_steps 50000 \
+    --save_steps 24000 \
     --save_total_limit 1 \
-    --learning_rate 5e-5 \
+    --learning_rate 1e-3 \
     --weight_decay 0. \
     --warmup_ratio 0.03 \
     --lr_scheduler_type "cosine" \

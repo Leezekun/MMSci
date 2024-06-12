@@ -1,5 +1,10 @@
 # MMSci
-contains all the data and code related to the paper **MMSci: A Multimodal Multi-discipline Dataset for Graduate-Level Scientific Comprehension**
+<p align="center">
+<img src='https://img.shields.io/badge/Code%20License-Apache_2.0-green.svg'></a>
+<img src='https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg'>
+</p>
+
+This repo contains all the data and code related to the paper **MMSci: A Multimodal Multi-discipline Dataset for Graduate-Level Scientific Comprehension**
 
 ## Table of Contents
 - [Overview](#overview)
@@ -69,22 +74,25 @@ DATASETS_MIXTURES.update({'mmc4core_mmsci': [mmc4core,mmsci]})
 After setting up the environment and registering the MMSci dataset, you can proceed with the pre-training of the model. The pre-training process in VILA involves two main stages.
 
 #### Stage 1: Alignment
-To align the textual and visual modalities, follow the alignment instructions provided in the VILA repository. Use the LLaVA-CC3M-pre-train-595K dataset for this process. Execute the alignment script with the following command:
+To align the textual and visual modalities, move the following script [resources/2_pre-train_mmc4_mmsci.sh](resources/2_pre-train_mmc4_mmsci.sh) into the VILA directory and run it. The [LLaVA-CC3M-pre-train-595K](https://huggingface.co/datasets/liuhaotian/LLaVA-CC3M-Pretrain-595K) dataset is used for this process. Execute the alignment script with the following command:
 ```bash
-bash scripts/v1_5/paper/1_mm_align.sh [BASE_MODEL_PATH] [OUTPUT_NAME]
+bash 1_mm_align.sh [BASE_MODEL_PATH] [OUTPUT_NAME]
 ```
 
-In our experiments, we set `BASE_MODEL_PATH` to the path of the base model, which is `meta-llama/Llama-2-7b-hf`. We use `llama2-7b-mm-align-mlp2x`as the `OUTPUT_NAME` to save the aligned model. Therefore, the command becomes::
+In our experiments, we set `BASE_MODEL_PATH` to the path of the base model, which is `meta-llama/Llama-2-7b-hf`. We use `llama2-7b-mm-align-mlp2x`as the `OUTPUT_NAME` to save the aligned model. Therefore, the command becomes:
 ```bash
-bash scripts/v1_5/paper/1_mm_align.sh meta-llama/Llama-2-7b-hf ./checkpoints/llama2-7b-mm-align-mlp2x
+bash 1_mm_align.sh meta-llama/Llama-2-7b-hf ./checkpoints/llama2-7b-mm-align-mlp2x
 ```
 
 #### Stage 2: Pre-training
-We have prepared a script for pre-training the model using our data, located at [resources/2_pre-train_mmc4_mmsci.sh](). To initiate the pre-training process, move the script in the VILA codebase and execute it with the following command:
-```
+We have prepared a script for pre-training the model using our data, located at [resources/2_pre-train_mmc4_mmsci.sh](resources/2_pre-train_mmc4_mmsci.sh). To initiate the pre-training process, move the script in the VILA codebase and execute it with the following command:
+```bash
 bash 2_pre-train_mmc4_mmsci.sh [CODE_PATH] [BASE_MODEL_PATH] [STAGE1_PATH] [OUTPUT_NAME]
 ```
-`CODE_PATH` is the absolute path to the VILA codebase, `BASE_MODEL_PATH` has similar meaning to what is presented in the alignment stage script, which is `meta-llama/Llama-2-7b-hf` in our experiments. `STAGE1_PATH` points to the OUTPUT_NAME of stage 1 (i.e. where the stage 1 checkpoint is stored), which is `llama2-7b-mm-align-mlp2x` in our case. `OUTPUT_NAME` is the desired folder name under checkpoints that saves the pre-training checkpoint. We use `llama2-7b-mmsci` in our case. The trained model is then saved at `VILA/checkpoints/llama2-7b-mmsci`.
+`CODE_PATH` is the absolute path to the VILA codebase, `BASE_MODEL_PATH` has similar meaning to what is presented in the alignment stage script, which is `meta-llama/Llama-2-7b-hf` in our experiments. `STAGE1_PATH` points to the OUTPUT_NAME of stage 1 (i.e. where the stage 1 checkpoint is stored), which is `llama2-7b-mm-align-mlp2x` in our case. `OUTPUT_NAME` is the desired folder name under checkpoints that saves the pre-training checkpoint. We use `llama2-7b-mmsci` in our case. The trained model is then saved at `VILA/checkpoints/llama2-7b-mmsci`. Therefore, the command becomes:
+```bash
+bash 2_pre-train_mmc4_mmsci.sh /home/ubuntu/MMSci/VILA meta-llama/Llama-2-7b-hf ./checkpoints/llama2-7b-mm-align-mlp2x ./checkpoints/llama2-7b-mmsci
+```
 
 
 ## Materials Generation

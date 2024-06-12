@@ -66,7 +66,7 @@ There are two tasks in our benchmark: figure captioning (image caption generatio
 
 ### Inferences
 
-1. Add Models for Evaluation: For evaluation on open-sourced models, first update the load_modal function in llava_builder.py to include the models you want to evaluate. 
+1. Add Models for Evaluation: For evaluation on open-sourced models, first update the load_modal function in model_loader.py to include the models you want to evaluate. 
 For example, add models as follows:
 ```
 models = {
@@ -95,7 +95,7 @@ python run_vqa.py --model_name $model --k 5 --setting 3
 ```
 We provide the scripts for all evaluated open-source models in our experiments in the `./scripts/eval` directory.
 
-3. GPT-4 Inferences: For the evaluation of GPT-4V (GPT-4-turbo) and GPT-4o, please run the `./eval/prepare_openai_input.ipynb` and then `./eval/process_openai_output.ipynb` notebook. Remember to set your openai api key.
+3. OpenAI Inferences: For the evaluation of GPT-4V (GPT-4-turbo) and GPT-4o, please refer to the `./eval/prepare_openai_input.ipynb` to prepare the input and perform batch inference, and then `./eval/process_openai_output.ipynb` notebook for process the output. Remember to set your OpenAI api key. We use OpenAI's Batch API to send asynchronous groups of requests with 50% lower costs.
 
 ### VQA Evaluation
 To evaluate the VQA (image caption matching) performance:

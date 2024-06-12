@@ -6,11 +6,12 @@
   - [Intended Use](#intended-use)
   - [Languages](#languages)
 - [Dataset Structure](#dataset-structure)
-    - [rawdata](#rawdata)
-    - [benchmark](#benchmark)
-    - [pretraindata](#pretraindata)
+  - [Source Data](#source-data) 
+  - [Benchmark Data](#benchmark-data)
+  - [Pretraining Data](#pretraining-data)
 - [Dataset Creation](#dataset-creation)
-  - [Source Data](#source-data)
+  - [Initial Data Collection](#initial-data-collection)
+  - [Source Language Producers](#source-language-producers)
   - [Annotations](#annotations)
   - [Personal and Sensitive Information](#personal-and-sensitive-information)
 - [Considerations for Using the Data](#considerations-for-using-the-data)
@@ -243,13 +244,13 @@ Here is an example:
 ### Pretraining Data
 The data is stored in the `pretraindata` directory, containing interleaved article text and figure images, formated according to [mmc4](https://github.com/allenai/mmc4). For a detailed description of the data format, please refer to [this documentation](https://github.com/allenai/mmc4/blob/main/DATASET_CARD.md#data-instances).
 
-### Source Data
+## Data Creation
 
-#### Initial Data Collection and Normalization
+### Initial Data Collection
 
 See the paper for more details.
 
-#### Who are the source language producers?
+### Source Language Producers
 
 Authors of publicly accessible articles.
 
@@ -257,7 +258,7 @@ Authors of publicly accessible articles.
 
 #### Annotation process
 
-This dataset is not explicitly annotated.
+The dataset does not include explicit annotations. Instead, the authors themselves carried out a small-scale manual review and classification of the image types specifically for analysis. No external annotators or crowdworkers were involved in this process.
 
 #### Who are the annotators?
 

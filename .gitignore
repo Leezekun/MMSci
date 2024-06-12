@@ -18,7 +18,9 @@ mmsci-exps/eval/eval_scores/
 mmsci-exps/__pycache__/
 
 # miscellaneous
-tmp/
+VILA/
+crystal-text-llm/
+zip/
 plotting/
 pics/
 scp.sh
