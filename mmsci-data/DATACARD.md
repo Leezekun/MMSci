@@ -22,11 +22,6 @@
 
 ## Dataset Description
 
-<!-- - **Homepage:** www.github.com/leezekun/mmsci -->
-<!-- - **Repository:** www.github.com/Leezekun/mmsci -->
-<!-- - **Paper:** https://arxiv.org/abs/2304.06939 -->
-<!-- - **Point of Contact:** Jack Hessel (jackh@allenai.org) -->
-
 ### Dataset Summary
 
 **MMSci** is a **multimodal, multi-discipline dataset** containing high-quality, open-access articles published in [Nature Communications journals](https://www.nature.com/ncomms/). This dataset encompasses [five major subjects and spans 72 diverse science disciplines](https://www.nature.com/nature/browse-subjects), primarily within the natural sciences. We have developed a benchmark to evaluate models' comprehension of graduate-level multimodal scientific knowledge across various advanced disciplines. Additionally, we constructed visual instruction-following data for visual instruction tuning and interleaved text and image data for visual pre-training.

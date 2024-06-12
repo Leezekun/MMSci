@@ -35,7 +35,7 @@ For detailed instructions on how to train these models, refer to the [LLaVA](htt
 
 ### Data Preparation
 
-Ensure you have prepared the data as instructed in [here](https://github.com/Leezekun/MMSci/blob/main/mmsci-data/README.md).
+Ensure you have prepared the data as instructed in [here](../mmsci-data/README.md).
 
 Specifically, you should have the following in the [mmsci-data/benchmark/train](../mmsci-data/benchmark/train) directory:
 - `llava_image_caption_mixed_data.json`: This file stores the conversations.

@@ -17,8 +17,6 @@ STAGE1_PATH=$3
 # for example, llava-v1.5-7b-mm-align
 OUTPUT=$4
 
-#cmd: bash scripts/v1_5/paper/2_5_pretrain_mmc4_mmncall.sh /share/edc/home/zekunli/VILA meta-llama/Llama-2-7b-hf llama2-7b-mm-align-mlp2x llama2-7b-mlp2x-mmncall-mmc4core-v2-joint
-
 echo "MASTER_ADDR="$MASTER_ADDR
 echo "JobID: $SLURM_JOB_ID | Full list: $worker_list"
 
