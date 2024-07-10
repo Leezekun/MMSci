@@ -50,8 +50,6 @@ The dataset consists of three parts:
 
 `https://mmsci.s3.amazonaws.com/pretraindata.zip`
 
-:sos: **If you are unable to download the data using the provided link, please try using different browsers.**
-
 ### Source Data
 The source data is stored in the `rawdata` directory, organized as follows:
 

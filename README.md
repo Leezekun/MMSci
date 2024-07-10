@@ -150,8 +150,6 @@ We provide various downloadable resources for our MMSci project. Below is a list
 2. **checkpoints**: 
   - **LLaVA-Next-MMSci**: The LLaVA-Next model fine-tuned on our visual instruction-following data is available [here](https://mmsci.s3.amazonaws.com/checkpoints.zip).
 
-:sos: **If you are unable to download the data using the provided link, please try using different browsers.**
-
 ## Acknowledgement
 We gratefully acknowledge the following projects and codebases that have significantly contributed to our work:
 - [LLaVA](https://github.com/haotian-liu/LLaVA): We use this codebase and its checkpoints in our visual instruction tuning process. 
