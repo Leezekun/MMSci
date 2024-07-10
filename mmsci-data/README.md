@@ -2,6 +2,8 @@
 # Data Downloading for MMSci
 We provide the instructions for downloading our data in this `README.md` file. For a detailed description of the dataset, please refer to [DATACARD.md](./DATACARD.md).
 
+:sos: **If you are unable to download the data using the provided link, please try using different browsers.**
+
 ## Source Data
 
 You can directly download the source dataset from [here](https://mmsci.s3.amazonaws.com/rawdata.zip). After downloading, unzip the file to access the `rawdata`.
