@@ -19,18 +19,9 @@ mmsci-exps/eval/eval_scores/
 mmsci-exps/__pycache__/
 mmsci-exps/eval/output/
 
-# rebuttal
-paperwritting/human-baseline-mmsci/images
-paperwritting/human-baseline-mmsci/splits
-paperwritting/human-baseline-mmsci/human_eval_results_*/
-paperwritting/human-baseline-arxivqa/arxivqa/
-paperwritting/human-baseline-arxivqa/images
-paperwritting/human-baseline-scifibench/scifibench
-paperwritting/human-baseline-scifibench/images
-
-
 
 # miscellaneous
+paperwritting/
 VILA/
 crystal-text-llm/
 zip/

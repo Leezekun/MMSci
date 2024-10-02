@@ -179,12 +179,8 @@ def load_model(model_name):
         "idefics3-8b": "HuggingFaceM4/Idefics3-8B-Llama3",
         "minicpm": "openbmb/MiniCPM-V-2_6",
         "florence2": "microsoft/Florence-2-large",
-        "yi-vl-6b": "01-ai/Yi-VL-6B",
-        # 'yi-vl-34b': '01-ai/Yi-VL-34B',
         "qwen2-vl-2b-mmsci-mixed": "/home/ubuntu/LLaMA-Factory/models/qwen2_vl_2b_lora_sft-mmsci-mixed",
         "qwen2-vl-2b-mmsci-mixed-v2": "/home/ubuntu/LLaMA-Factory/models/qwen2_vl_2b_lora_sft-mmsci-mixed-v2",
-        "llava-next-mmsci": "/home/ubuntu/MMSci/mmsci-exps/checkpoints/llava-v1.6-vicuna-7b-mmsci",
-        "llava-next-arxivqa": "/home/ubuntu/MMSci/mmsci-exps/checkpoints/llava-v1.6-vicuna-7b-arxivqa",
     }
 
     if model_name == "blip2":
