@@ -2,13 +2,13 @@
 
 cd ..
 
-torchrun --nnodes=1 --nproc_per_node=8 --master_port=25001 \
+CUDA_LAUNCH_BLOCKING=1 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 torchrun --nnodes=1 --nproc_per_node=8 --master_port=25001 \
     llava/train/train_mem.py \
     --deepspeed ./scripts/zero3.json \
     --model_name_or_path liuhaotian/llava-v1.6-vicuna-7b \
     --version v1 \
-    --data_path "../mmsci-data/benchmark/train/llava_image_caption_mixed_data.json" \
-    --image_folder "../mmsci-data/benchmark/train/images" \
+    --data_path "../mmarxiv/processed_arxivqa.json" \
+    --image_folder "../mmarxiv/images" \
     --vision_tower openai/clip-vit-large-patch14-336 \
     --mm_projector_type mlp2x_gelu \
     --mm_vision_select_layer -2 \
@@ -17,15 +17,15 @@ torchrun --nnodes=1 --nproc_per_node=8 --master_port=25001 \
     --image_aspect_ratio pad \
     --group_by_modality_length True \
     --bf16 True \
-    --output_dir ./checkpoints/llava-v1.6-vicuna-7b-mmsci \
+    --output_dir ./checkpoints/llava-v1.6-vicuna-7b-arxivqa \
     --num_train_epochs 1 \
-    --per_device_train_batch_size 8 \
+    --per_device_train_batch_size 4 \
     --per_device_eval_batch_size 4 \
     --gradient_accumulation_steps 2 \
     --evaluation_strategy "no" \
     --save_strategy "steps" \
     --save_steps 500 \
-    --save_total_limit 20 \
+    --save_total_limit 2 \
     --learning_rate 2e-5 \
     --weight_decay 0. \
     --warmup_ratio 0.03 \

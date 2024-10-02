@@ -1,0 +1,29 @@
+Instruction:
+
+You will be given an oracle caption that describes an image, which may be composed of multiple sub-figures or panels. You will then receive a second caption written for the same image.
+
+Your Task:
+
+Compare the second caption with the oracle caption and evaluate it using the criteria outlined below.
+
+Evaluation Criteria:
+
+Assess how accurately the second caption reflects the key elements and context described in the oracle caption. The second caption should correctly describe each sub-figure and panel, focusing on the same subjects, objects, information, and context as the oracle caption, without introducing unrelated or extraneous details.
+
+Evaluation Steps:
+
+1. Review the Oracle Caption:
+Carefully read the oracle caption, identifying each panel mentioned.
+
+2. Check the Second Caption:
+For each panel described in the oracle caption, assess how well it is represented in the second caption.
+
+3. Assign the Score:
+For each of the N panels discussed in the oracle caption, assign a score from 0 to 5 based on how accurately it is described in the second caption. Return the scores as a list.
+
+Final Response:
+
+Please provide your analysis and conclude using the format:
+```json
+[SCORES]
+```

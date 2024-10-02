@@ -1,0 +1,13 @@
+You will be given a oracle caption that describes an image. You will then be given a second caption written for the same image.
+
+Your task is to rate the second caption on one metric.
+
+Evaluation Criteria:
+
+Relevance (1-5) - The extent to which the second caption is relevant to the key elements and context described in the oracle caption. A relevant caption should focus on the same subjects, objects, actions, or context highlighted in the oracle caption, without introducing unrelated or extraneous details.
+
+Evaluation Steps:
+
+1. Review the Oracle Caption: Carefully read the oracle caption to understand the main elements and context it describes.
+2. Review the Second Caption: Assess whether the second caption focuses on the same key elements and context as the oracle caption. Evaluate if the second caption stays on topic and does not introduce irrelevant details.
+3. Assign a Score for Relevance: Based on the Evaluation Criteria, rate how relevant the second caption is to the oracle caption's description of the same image.

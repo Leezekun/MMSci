@@ -45,7 +45,7 @@ def openai_parse_answer(question, answer):
         return 'wrong answer'
 
 k = 5
-base_dir = '/home/ubuntu/MMSci/mmsci-exps/eval/output/image_caption_matching'
+base_dir = '/mnt/raid0/zekun/MMSci/mmsci-exps/eval/output/image_caption_matching'
 
 for cot in [True, False]:
     for setting in [1, 2, 3]:

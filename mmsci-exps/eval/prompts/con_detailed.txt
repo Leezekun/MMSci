@@ -1,0 +1,13 @@
+You will be given a oracle caption that describes an image. You will then be given a second caption written for the same image.
+
+Your task is to rate the second caption's consistency with the oracle caption.
+
+Evaluation Criteria:
+
+Consistency (1-5) - The alignment between the second caption and the oracle caption in describing the same image. A consistent caption should accurately reflect the key elements and details described in the oracle caption without introducing conflicting or unrelated information.
+
+Evaluation Steps:
+
+1. Review the Oracle Caption: Carefully read the oracle caption and understand the details and key elements it describes.
+2. Review the Second Caption: Compare the second caption to the oracle caption, checking for consistency in how both captions describe the same image. Look for any discrepancies or conflicting details between the two captions.
+3. Assign a Score for Consistency: Based on the Evaluation Criteria, rate how well the second caption aligns with the oracle caption in describing the same image.

@@ -36,7 +36,7 @@ def parse_args():
 
     parser.add_argument(
         '--image_dir',
-        default='/home/ubuntu/MMSci/mmsci-data/benchmark/dev/images',
+        default='/mnt/raid0/zekun/MMSci/mmsci-data/benchmark/dev/images',
         type=str,
         help='Directory of images, with the filenames as image ids.')
     
@@ -311,7 +311,7 @@ if __name__ == '__main__':
     args.compute_other_ref_metrics = 1
     args.overwrite = 1
 
-    base_output_dir = '/home/ubuntu/MMSci/mmsci-exps/eval/output/image_caption_generation'
+    base_output_dir = '/mnt/raid0/zekun/MMSci/mmsci-exps/eval/output/image_caption_generation'
 
     for w_abs in [False, True]:
         for w_ctx in [False, True]:

@@ -21,7 +21,7 @@ The code and experiments of this project can be structured into four main parts:
 3. **Pre-training on Interleaved Data**: Focuses on pre-training the LLaMA2-7B model using our interleaved multimodal dataset. 
 4. **Material Generation**: Evaluates the LLaMA2-7B model pre-trained on our data on the task of material generation. 
 
-We put this codebase under the `/home/ubuntu` directory, specifically at `/home/ubuntu/MMSci`. Please replace this path with the path where you have placed this code on your system.
+We put this codebase under the `/home/ubuntu` directory, specifically at `/mnt/raid0/zekun/MMSci`. Please replace this path with the path where you have placed this code on your system.
 
 ## Dataset
 The mmsci-data directory contains all the necessary data for benchmark evaluation, visual instruction tuning, and pre-training on interleaved data. For detailed information, refer to the [mmsci-data/README.md](./mmsci-data/README.md).
@@ -91,7 +91,7 @@ bash 2_pre-train_mmc4_mmsci.sh [CODE_PATH] [BASE_MODEL_PATH] [STAGE1_PATH] [OUTP
 ```
 `CODE_PATH` is the absolute path to the VILA codebase, `BASE_MODEL_PATH` has similar meaning to what is presented in the alignment stage script, which is `meta-llama/Llama-2-7b-hf` in our experiments. `STAGE1_PATH` points to the OUTPUT_NAME of stage 1 (i.e. where the stage 1 checkpoint is stored), which is `llama2-7b-mm-align-mlp2x` in our case. `OUTPUT_NAME` is the desired folder name under checkpoints that saves the pre-training checkpoint. We use `llama2-7b-mmsci` in our case. The trained model is then saved at `VILA/checkpoints/llama2-7b-mmsci`. Therefore, the command becomes:
 ```bash
-bash 2_pre-train_mmc4_mmsci.sh /home/ubuntu/MMSci/VILA meta-llama/Llama-2-7b-hf ./checkpoints/llama2-7b-mm-align-mlp2x ./checkpoints/llama2-7b-mmsci
+bash 2_pre-train_mmc4_mmsci.sh /mnt/raid0/zekun/MMSci/VILA meta-llama/Llama-2-7b-hf ./checkpoints/llama2-7b-mm-align-mlp2x ./checkpoints/llama2-7b-mmsci
 ```
 
 
@@ -152,7 +152,7 @@ We provide various downloadable resources for our MMSci project. Below is a list
 
 ## Acknowledgement
 We gratefully acknowledge the following projects and codebases that have significantly contributed to our work:
-- [LLaVA](https://github.com/haotian-liu/LLaVA): We use this codebase and its checkpoints in our visual instruction tuning process. 
+- [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory): We use this codebase and its checkpoints in our visual instruction tuning process. 
 - [VILA](https://github.com/Efficient-Large-Model/VILA): The codebase served as the foundation for our pre-training on interleaved multimodal data. 
 - [crystal-text-llm](https://github.com/facebookresearch/crystal-text-llm): We leveraged this codebase for conducting experiments related to material generation.
 

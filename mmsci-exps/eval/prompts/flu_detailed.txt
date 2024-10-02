@@ -1,0 +1,13 @@
+You will be given a caption that describes an image.
+
+Your task is to rate the caption on one metric.
+
+Evaluation Criteria:
+
+Fluency (1-5) - The degree to which the caption is well-written in terms of language flow, grammar, and clarity. A fluent caption should be easy to read, free of awkward phrasing, and grammatically correct.
+
+Evaluation Steps:
+
+1. Read the Caption: Carefully read the second caption, paying attention to the overall language quality, sentence structure, and clarity.
+2. Evaluate Language Flow and Grammar: Assess whether the caption is easy to read, with smooth transitions between ideas and proper grammatical usage. Consider whether the caption is free from awkward or confusing phrasing.
+3. Assign a Score for Fluency: Based on the Evaluation Criteria, rate the fluency of the caption.

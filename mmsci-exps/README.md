@@ -26,13 +26,6 @@ pip install flash-attn --no-build-isolation
 
 ## Train
 
-### Download Vicuna checkpoints (automatically)
-
-We use LLaVA weights for further fine-tuning on our data. The public LLaVA weights are available [here](https://github.com/haotian-liu/LLaVA/blob/main/docs/MODEL_ZOO.md). In our experiments, we specifically use the [LLaVA-v1.6-vicuna-7b](https://huggingface.co/liuhaotian/llava-v1.6-vicuna-7b) model.
-
-For detailed instructions on how to train these models, refer to the [LLaVA](https://github.com/haotian-liu/LLaVA) project.
-
-
 ### Data Preparation
 
 Ensure you have prepared the data as instructed in [here](../mmsci-data/README.md).
@@ -41,23 +34,61 @@ Specifically, you should have the following in the [mmsci-data/benchmark/train](
 - `llava_image_caption_mixed_data.json`: This file stores the conversations.
 - `images`: This directory contains all the necessary images.
 
-
-### Visual Instruction Tuning
-For visual instruction tuning, we adhere to the hyperparameters used in in [LLaVA](https://github.com/haotian-liu/LLaVA).
-
-| Hyperparameter | Global Batch Size | Learning rate | Epochs | Max length | Weight decay |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| LLaVA-v1.6-Vicuna-7B | 128 | 2e-5 | 1 | 2048 | 0 |
-
-Our model is trained on 8 A100 GPUs with 40GB memory. If you're using different GPUs, adjust the `per_device_train_batch_size` and the `gradient_accumulation_steps` accordingly. Always keep the global batch size the same: `per_device_train_batch_size` x `gradient_accumulation_steps` x `num_gpus`.
-
-To start training, execute the following commands:
-```bash
-cd scripts
-sh finetune.sh
+### Supervised Fine-Tuning
+We use the [LLAMA-Factory](https://github.com/hiyouga/LLaMA-Factory) repo to train the Qwen2-VL-2B model on our data. Convert the data into the expected format and add the our data into the `dataset_info.json` of the repo.
+```json
+"mmsci": {
+    "file_name": <data_path>,
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "conversations",
+      "images": "images"
+    },
+    "tags": {
+      "role_tag": "from",
+      "content_tag": "value",
+      "user_tag": "human",
+      "assistant_tag": "gpt"
+    }
+}
 ```
 
-We train for one epoch, which takes approximately 24 hours.
+We train for one epoch. Please use the following script for training.
+
+```yaml
+### model
+model_name_or_path: Qwen/Qwen2-VL-2B-Instruct
+
+### method
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_target: all
+
+### dataset
+dataset: mmsci 
+template: qwen2_vl
+cutoff_len: 4096
+overwrite_cache: true
+preprocessing_num_workers: 32
+
+### output
+output_dir: saves/qwen2_vl-2b/lora/sft-mmsci-mixed-v2
+logging_steps: 100
+save_steps: 1000
+plot_loss: true
+overwrite_output_dir: true
+
+### train
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 8
+learning_rate: 1.0e-4
+num_train_epochs: 1.0
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+ddp_timeout: 180000000
+```
 
 ## Evaluation
 
@@ -83,19 +114,20 @@ export CUDA_VISIBLE_DEVICES=$devices
 model=blip2
 
 ### Ungrounded Figure Captioning
-python run_captioning.py --model_name $model --k 3 --with_abstract False --with_content False
+python run_captioning.py --model_name $model --k 1 --with_abstract False --with_content False
 
 ### Abstract-grounded Figure Captioning
-python run_captioning.py --model_name $model --k 3 --with_abstract True --with_content False
+python run_captioning.py --model_name $model --k 1 --with_abstract True --with_content False
 
 ### VQA (Image Caption Matching)
-python run_vqa.py --model_name $model --k 5 --setting 1
-python run_vqa.py --model_name $model --k 5 --setting 2
-python run_vqa.py --model_name $model --k 5 --setting 3
+python run_matching.py --model_name $model --k 1 --setting 1 # Fig2Cap
+python run_matching.py --model_name $model --k 1 --setting 2 # SubFig2Cap
+python run_matching.py --model_name $model --k 1 --setting 3 # SubCap2Fig
 ```
 We provide the scripts for all evaluated open-source models in our experiments in the `./scripts/eval` directory.
 
-3. OpenAI Inferences: For the evaluation of GPT-4V (GPT-4-turbo) and GPT-4o, please refer to the `./eval/prepare_openai_input.ipynb` to prepare the input and perform batch inference, and then `./eval/process_openai_output.ipynb` notebook for process the output. Remember to set your OpenAI api key. We use OpenAI's Batch API to send asynchronous groups of requests with 50% lower costs.
+3. Proprietary Model Inferences: For the evaluation of proprietary MLLMs, we support APIs for OpenAI, Anthropic's Claude, and Google's Gemini models. Remember to set the API keys.
+
 
 ### VQA Evaluation
 To evaluate the VQA (image caption matching) performance:
