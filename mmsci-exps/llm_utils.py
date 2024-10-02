@@ -195,7 +195,7 @@ Abstract:
 Cullin-RING ubiquitin ligases (CRLs) are critical in ubiquitinating Myc, while COP9 signalosome (CSN) controls neddylation of Cullin in CRL. The mechanistic link between Cullin neddylation and Myc ubiquitination/degradation is unclear. Here we show that Myc is a target of the CSN subunit 6 (CSN6)–Cullin signalling axis and that CSN6 is a positive regulator of Myc. CSN6 enhanced neddylation of Cullin-1 and facilitated autoubiquitination/degradation of Fbxw7, a component of CRL involved in Myc ubiquitination, thereby stabilizing Myc. Csn6 haplo-insufficiency decreased Cullin-1 neddylation but increased Fbxw7 stability to compromise Myc stability and activity in an Eμ-Myc mouse model, resulting in decelerated lymphomagenesis. We found that CSN6 overexpression, which leads to aberrant expression of Myc target genes, is frequent in human cancers. Together, these results define a mechanism for the regulation of Myc stability through the CSN–Cullin–Fbxw7 axis and provide insights into the correlation of CSN6 overexpression with Myc stabilization/activation during tumorigenesis.
 """
     input_image = "../mmsci-data/benchmark/dev/images/ncomms6384_figure_5.png"
-    # input_image = "/mnt/raid0/zekun/MMSci/setting3.jpg"
+    # input_image = "/home/ubuntu/MMSci/setting3.jpg"
 
     messages = [
         {

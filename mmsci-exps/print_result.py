@@ -247,7 +247,3 @@ for subject, count in subjects.items():
 # Calculate and print accuracy
 accuracy = correct / total if total > 0 else 0
 print(f"Total accuracy: {accuracy:.2%} ({correct}/{total})")
-
-# for wrong_case in wrong_cases:
-#     print(json.dumps(wrong_case, indent=4))
-#     _ = input("Press ENTER to continue....")

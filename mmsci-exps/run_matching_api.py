@@ -15,18 +15,18 @@ argparser = argparse.ArgumentParser()
 argparser.add_argument(
     "--input_filename",
     type=str,
-    default="/mnt/raid0/zekun/MMSci/mmsci-data/benchmark/test/image_caption_matching_data.json",
+    default="/home/ubuntu/MMSci/mmsci-data/benchmark/test/image_caption_matching_data.json",
 )
 argparser.add_argument(
     "--example_filename",
     type=str,
-    default="/mnt/raid0/zekun/MMSci/mmsci-exps/eval/prompts/cot_examples.json",
+    default="/home/ubuntu/MMSci/mmsci-exps/eval/prompts/cot_examples.json",
 )
 argparser.add_argument("--base_output_dir", type=str, default="./eval/output/")
 argparser.add_argument(
     "--image_dir",
     type=str,
-    default="/mnt/raid0/zekun/MMSci/mmsci-data/benchmark/test/images/",
+    default="/home/ubuntu/MMSci/mmsci-data/benchmark/test/images/",
 )
 argparser.add_argument("--task", type=str, default="image_caption_matching")
 argparser.add_argument("--model_name", type=str, default="gemini-1.5-pro-001")

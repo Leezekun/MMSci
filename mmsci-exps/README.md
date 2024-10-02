@@ -128,27 +128,24 @@ We provide the scripts for all evaluated open-source models in our experiments i
 
 3. Proprietary Model Inferences: For the evaluation of proprietary MLLMs, we support APIs for OpenAI, Anthropic's Claude, and Google's Gemini models. Remember to set the API keys.
 
-
-### VQA Evaluation
-To evaluate the VQA (image caption matching) performance:
-1. Prepare Captioning Output: Ensure that the figure captioning output is available in the `./eval/output/image_caption_matching` directory.
-2. Parse answer: For outputs where the answers cannot be easily parsed, run `./eval/parse_vqa_output.py`.
-3. Run the Evaluation Notebook: Open and execute the `evaluate_vqa.ipynb` Jupyter notebook. This will process the captioning output and generate the VQA evaluation results.
-
 ### Captioning Evaluation
 To evaluate the figure captioning performance:
 1. Prepare Captioning Output: Ensure that the figure captioning output is available in the `./eval/output/image_caption_generation` directory.
 2. Calculate Other Reference-Based Metrics: Run the `textgen_scores.py` script to calculate reference-based metrics such as BLEU, METEOR, and ROUGE. For example, evaluate the outputs of LLaVA-Next-MMSci:
 ```bash
-python textgen_scores.py --model llava-next-mmsci
+python textgen_scores.py --model qwen2-vl-2b
 ```
-3. Calculate CLIPScore and RefCLIPScore (optional): Execute the `clipscore.py` script to compute the CLIPScore and RefCLIPScore for the generated captions.
-4. Review and Print Scores: Open and execute the `print_captioning_scores.ipynb` notebook to print and review the detailed captioning scores.
+3. Calculate the G-Eval score with the `llm_judge_scores.py` script.
+4. Calculate the FActScore score with the `textgen.py` script.
+
+<!-- 3. Calculate CLIPScore and RefCLIPScore (optional): Execute the `clipscore.py` script to compute the CLIPScore and RefCLIPScore for the generated captions. -->
+<!-- 4. Review and Print Scores: Open and execute the `print_captioning_scores.ipynb` notebook to print and review the detailed captioning scores. -->
 
 
 ## Acknowledgement
 
 - [LLaVA](https://github.com/haotian-liu/LLaVA): The primary codebase on which our code is based. We use it for our training processes and use its checkpoints.
+- [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory): We use this codebase and its checkpoints in our visual instruction tuning process. 
 - [Vicuna](https://github.com/lm-sys/FastChat):  Provides the Vicuna model, which is used as the base language model for the LLaVA model we use.
 - [clipscore](https://github.com/jmhessel/clipscore): Used for evaluating CLIPScore and RefCLIPScore
 

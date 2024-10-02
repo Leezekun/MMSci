@@ -9,19 +9,8 @@ from openai import AzureOpenAI
 from openai import OpenAI
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-os.environ["AZURE_OPENAI_API_KEY"] = "e6d830c605dd4a32886fd0c0c67d6e9f"
-os.environ["AZURE_OPENAI_ENDPOINT"] = "https://h-prd-meu-aoai-aai.openai.azure.com/"
-
-# model = AzureOpenAI(
-#             api_key = os.getenv("AZURE_OPENAI_API_KEY"),
-#             api_version = "2024-03-01-preview",
-#             azure_endpoint =os.getenv("AZURE_OPENAI_ENDPOINT")
-#             )
 
 model = client = OpenAI(api_key="OPENAI_API_KEY")
-# url = AZURE_OPENAI_ENDPOINT + "openai/deployments/gpt-4o-2024-08-06/chat/completions?api-version=" + '2024-08-06-preview' # gpt-4o-2024-08-06
-# headers = {'Content-Type': 'application/json','api-key': f"{AZURE_OPENAI_API_KEY}"}
-
 
 def extract_float(s):
     # Regular expression to find float numbers between 0 and 1, including 0 and 1
@@ -50,98 +39,6 @@ def extract_int(s, scales=[0, 5]):
 
 def generate_atomic_facts(generated_caption):
     global model
-
-    deprecated_prompt = """Please breakdown the following sentence into independent facts: He made his acting debut in the film The Moon is the Sun’s Dream (1992), and continued to appear in small and supporting roles throughout the 1990s.
-- He made his acting debut in the film.
-- He made his acting debut in The Moon is the Sun’s Dream.
-- The Moon is the Sun’s Dream is a film.
-- The Moon is the Sun’s Dream was released in 1992.
-- After his acting debut, he appeared in small and supporting roles.
-- After his acting debut, he appeared in small and supporting roles throughout the 1990s.
-
-Please breakdown the following sentence into independent facts: He is also a successful producer and engineer, having worked with a wide variety of artists, including Willie Nelson, Tim McGraw, and Taylor Swift.
-- He is successful.
-- He is a producer.
-- He is a engineer.
-- He has worked with a wide variety of artists.
-- Willie Nelson is an artist.
-- He has worked with Willie Nelson.
-- Tim McGraw is an artist.
-- He has worked with Tim McGraw.
-- Taylor Swift is an artist.
-- He has worked with Taylor Swift.
-
-Please breakdown the following sentence into independent facts: In 1963, Collins became one of the third group of astronauts selected by NASA and he served as the back-up Command Module Pilot for the Gemini 7 mission.
-- Collins became an astronaut.
-- Collins became one of the third group of astronauts.
-- Collins became one of the third group of astronauts selected.
-- Collins became one of the third group of astronauts selected by NASA.
-- Collins became one of the third group of astronauts selected by NASA in 1963.
-- He served as the Command Module Pilot.
-- He served as the back-up Command Module Pilot.
-- He served as the Command Module Pilot for the Gemini 7 mission.
-
-Please breakdown the following sentence into independent facts: In addition to his acting roles, Bateman has written and directed two short films and is currently in development on his feature debut.
-- Bateman has acting roles.
-- Bateman has written two short films.
-- Bateman has directed two short films.
-- Bateman has written and directed two short films.
-- Bateman is currently in development on his feature debut.
-
-Please breakdown the following sentence into independent facts: Michael Collins (born October 31, 1930) is a retired American astronaut and test pilot who was the Command Module Pilot for the Apollo 11 mission in 1969.
-- Michael Collins was born on October 31, 1930.
-- Michael Collins is retired.
-- Michael Collins is an American.
-- Michael Collins was an astronaut.
-- Michael Collins was a test pilot.
-- Michael Collins was the Command Module Pilot.
-- Michael Collins was the Command Module Pilot for the Apollo 11 mission.
-- Michael Collins was the Command Module Pilot for the Apollo 11 mission in 1969.
-
-Please breakdown the following sentence into independent facts: He was an American composer, conductor, and musical director.
-- He was an American.
-- He was a composer.
-- He was a conductor.
-- He was a musical director.
-
-Please breakdown the following sentence into independent facts: She currently stars in the romantic comedy series, Love and Destiny, which premiered in 2019.
-- She currently stars in Love and Destiny.
-- Love and Destiny is a romantic comedy series.
-- Love and Destiny premiered in 2019.
-
-Please breakdown the following sentence into independent facts: During his professional career, McCoy played for the Broncos, the San Diego Chargers, the Minnesota Vikings, and the Jacksonville Jaguars.
-- McCoy played for the Broncos.
-- McCoy played for the Broncos during his professional career.
-- McCoy played for the San Diego Chargers.
-- McCoy played for the San Diego Chargers during his professional career.
-- McCoy played for the Minnesota Vikings.
-- McCoy played for the Minnesota Vikings during his professional career.
-- McCoy played for the Jacksonville Jaguars.
-- McCoy played for the Jacksonville Jaguars during his professional career."""
-
-    #     messages = [
-    #         {
-    #             "role": "system",
-    #             "content": "You will be given a caption for a figure containing multiple panels, which includes descriptions for the entire figure as well as each individual panel. Your task is to break down the caption into separate, independent descriptions for the entire figure and each panel, formatted appropriately and separated by '-'",
-    #         },
-    #         {
-    #             "role": "user",
-    #             "content": """The figure consists of four sub-figures labeled a, b, c, and d. All four images appear to be scanning electron microscope (SEM) images showing the microstructure of different materials, likely related to the iron-based cathode catalysts described in the article.\n\na. This image shows a highly porous structure with interconnected particles forming a network. The particles appear to be in the nanometer to micrometer size range. The scale bar indicates 1 \u03bcm.\n\nb. This image displays a closer view of what seems to be a similar material to (a), but at a higher magnification. The individual particles are more clearly visible, showing a rough, granular texture. The scale bar indicates 200 nm.\n\nc. This image reveals a different morphology compared to (a) and (b). It shows larger, more consolidated structures with a rougher surface texture. There are still visible pores and gaps between the structures. The scale bar indicates 1 \u03bcm.\n\nd. This final image appears to be a cross-sectional view of a porous material, possibly showing the internal structure of the catalyst. It reveals a highly interconnected network of pores and channels throughout the material. The scale bar indicates 200 nm.\n\nThese images likely represent different stages or variations of the iron-acetate/phenanthroline/zeolitic-imidazolate-framework-derived electrocatalyst mentioned in the article. The varying structures and porosities shown in these images could be related to the enhanced mass-transport properties and increased volumetric activity described in the text.""",
-    #         },
-    #         {
-    #             "role": "assistant",
-    #             "content": """
-    # - The figure consists of four sub-figures labeled a, b, c, and d.
-    # - All four images appear to be scanning electron microscope (SEM) images showing the microstructure of different materials, likely related to the iron-based cathode catalysts described in the article.
-    # - a. This image shows a highly porous structure with interconnected particles forming a network. The particles appear to be in the nanometer to micrometer size range. The scale bar indicates 1 \u03bcm.
-    # - b. This image displays a closer view of what seems to be a similar material to (a), but at a higher magnification. The individual particles are more clearly visible, showing a rough, granular texture. The scale bar indicates 200 nm.
-    # - c. This image reveals a different morphology compared to (a) and (b). It shows larger, more consolidated structures with a rougher surface texture. There are still visible pores and gaps between the structures. The scale bar indicates 1 \u03bcm.
-    # - d. This final image appears to be a cross-sectional view of a porous material, possibly showing the internal structure of the catalyst. It reveals a highly interconnected network of pores and channels throughout the material. The scale bar indicates 200 nm.
-    # - These images likely represent different stages or variations of the iron-acetate/phenanthroline/zeolitic-imidazolate-framework-derived electrocatalyst mentioned in the article.
-    # - The varying structures and porosities shown in these images could be related to the enhanced mass-transport properties and increased volumetric activity described in the text.""",
-    #         },
-    #         {"role": "user", "content": f"{generated_caption}"},
-    #     ]
 
     messages = [
         {
@@ -325,9 +222,9 @@ def get_score(
     return out
 
 
-def iterate_json_file(file_path, num_samples=100, generate=True):
+def iterate_json_file(file_path, num_samples=200, generate=True):
     # Get the answer
-    answer_json = "/mnt/raid0/zekun/MMSci/mmsci-data/benchmark/test/image_caption_generation_data_w_answer.json"
+    answer_json = "/home/ubuntu/MMSci/mmsci-data/benchmark/test/image_caption_generation_data_w_answer.json"
     with open(answer_json) as f:
         answers = json.load(f)
     answer_dict = {dp["abstract"][:20]: dp["caption"] for dp in answers}
@@ -345,7 +242,7 @@ def iterate_json_file(file_path, num_samples=100, generate=True):
 
     existing_imgs = [dp["image"] for dp in annotated_total_data]
 
-    # Get a subset with 100 examples
+    # Get a subset with 200 examples
     random.shuffle(total_data)
     for dp in total_data:
         if "prediction" not in dp:
@@ -432,7 +329,7 @@ def iterate_json_file(file_path, num_samples=100, generate=True):
 
 
 def process_model(
-    model_name, num_samples=100, abstract=True, context=False, generate=False
+    model_name, num_samples=200, abstract=True, context=False, generate=False
 ):
     for k in [1, 3, 5]:
         file_name = f"./output/image_caption_generation/abs{abstract}_ctx{context}/k_{k}/{model_name}.json"
@@ -455,13 +352,13 @@ def process_model(
 if __name__ == "__main__":
     model_names = [
         "gpt-4o",
-        # "gpt-4-turbo", # finished
-        # "gemini-1.5-pro-001", # finished
+        "gpt-4-turbo",
+        "gemini-1.5-pro-001",
         "gemini-1.5-pro-002",
         "claude-3-5-sonnet-20240620",
-        # "qwen2-vl-2b-mmsci-mixed", # finished
-        # "qwen2-vl-2b", # finished
-        # "qwen2-vl-7b", # finished
+        "qwen2-vl-2b-mmsci-mixed",
+        "qwen2-vl-2b",
+        "qwen2-vl-7b",
         "qwen",
         "llava",
         "llava-next-mistral",
@@ -478,7 +375,7 @@ if __name__ == "__main__":
     ]
 
     generate = True
-    num_samples = 25
+    num_samples = 200
 
     for abstract in [True, False]:
         for context in [False]:

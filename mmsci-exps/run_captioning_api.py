@@ -132,9 +132,9 @@ def _main(args):
 if __name__ == '__main__':
 
     argparser = argparse.ArgumentParser()
-    argparser.add_argument('--input_filename', type=str, default='/mnt/raid0/zekun/MMSci/mmsci-data/benchmark/test/image_caption_generation_data.json')
+    argparser.add_argument('--input_filename', type=str, default='/home/ubuntu/MMSci/mmsci-data/benchmark/test/image_caption_generation_data.json')
     argparser.add_argument('--base_output_dir', type=str, default='./eval/output/')
-    argparser.add_argument('--image_dir', type=str, default='/mnt/raid0/zekun/MMSci/mmsci-data/benchmark/test/images/')
+    argparser.add_argument('--image_dir', type=str, default='/home/ubuntu/MMSci/mmsci-data/benchmark/test/images/')
     argparser.add_argument('--task', type=str, default='image_caption_generation')
     argparser.add_argument('--model_name', type=str, default='bert-base-uncased')
     argparser.add_argument('--max_tokens', type=int, default=3000)

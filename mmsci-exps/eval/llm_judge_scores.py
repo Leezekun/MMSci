@@ -338,7 +338,7 @@ def main(args):
 if __name__ == '__main__':
 
     args = parse_args()
-    base_output_dir = '/mnt/raid0/zekun/MMSci/mmsci-exps/eval/output/image_caption_generation'
+    base_output_dir = '/home/ubuntu/MMSci/mmsci-exps/eval/output/image_caption_generation'
 
     for w_abs in [True]:
         for w_ctx in [False]:
