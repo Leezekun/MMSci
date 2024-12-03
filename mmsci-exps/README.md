@@ -135,8 +135,9 @@ To evaluate the figure captioning performance:
 ```bash
 python textgen_scores.py --model qwen2-vl-2b
 ```
-3. Calculate the G-Eval score with the `llm_judge_scores.py` script.
-4. Calculate the FActScore score with the `textgen.py` script.
+3. Calculate the **G-Eval score** with the `llm_judge_scores.py` script.
+4. Calculate the **FActScore** with the `textgen.py` script.
+5. Calculate the **L3Score** with the `l3score.py` script.
 
 <!-- 3. Calculate CLIPScore and RefCLIPScore (optional): Execute the `clipscore.py` script to compute the CLIPScore and RefCLIPScore for the generated captions. -->
 <!-- 4. Review and Print Scores: Open and execute the `print_captioning_scores.ipynb` notebook to print and review the detailed captioning scores. -->
@@ -148,6 +149,7 @@ python textgen_scores.py --model qwen2-vl-2b
 - [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory): We use this codebase and its checkpoints in our visual instruction tuning process. 
 - [Vicuna](https://github.com/lm-sys/FastChat):  Provides the Vicuna model, which is used as the base language model for the LLaVA model we use.
 - [clipscore](https://github.com/jmhessel/clipscore): Used for evaluating CLIPScore and RefCLIPScore
+- [l3score](https://github.com/google/spiqa/blob/main/metrics/llmlogscore/llmlogscore.py): Used for evaluating L3Score for captioning.
 
 ## Licenses
 [![Code License](https://img.shields.io/badge/Code%20License-Apache_2.0-green.svg)](https://github.com/haotian-liu/LLaVA/blob/main/LICENSE)

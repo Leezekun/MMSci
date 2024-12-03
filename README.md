@@ -8,11 +8,12 @@ This repo contains all the data and code related to the paper **MMSci: A Multimo
 
 ## Table of Contents
 - [Overview](#overview)
+- [Resources](#resources)
 - [Dataset](#dataset)
 - [Benchmark Evaluation & Visual Instruction Tuning](#benchmark)
 - [Pre-training on Interleaved data](#pretraining)
 - [Materials Generation](#matgen)
-- [Resources](#resources)
+
 
 ## Overview
 The code and experiments of this project can be structured into four main parts:
@@ -23,6 +24,19 @@ The code and experiments of this project can be structured into four main parts:
 
 We put this codebase under the `/home/ubuntu` directory, specifically at `/home/ubuntu/MMSci`. Please replace this path with the path where you have placed this code on your system.
 
+## Resources
+We provide various downloadable resources for our MMSci project. Below is a list of the available resources and their corresponding download links:
+1. **mmsci-data**: this includes all the data you can download regarding our MMSci data, including: 
+  - **rawdata**: The raw (source) data of our dataset can be download [here](https://mmsci.s3.amazonaws.com/rawdata.zip). 
+  - **benchmark**: The benchmark dataset, including the data for visual instruction tuning, is available for download [here](https://mmsci.s3.amazonaws.com/benchmark.zip). 
+  - **pretraindata**: Interleaved data formatted for pre-training on multimodal datasets can be downloaded [here](https://mmsci.s3.amazonaws.com/pretraindata.zip).
+
+2. **checkpoints**: 
+  - **Qwen2-VL-2B-MMSci**: The [Qwen2-VL-2B model](https://huggingface.co/Qwen/Qwen2-VL-2B-Instruct) fine-tuned on our visual instruction-following data. Download the checkpoint [here](https://mmsci.s3.us-east-1.amazonaws.com/qwen2-vl-2b-mmsci.zip). 
+  - **Qwen2-VL-7B-MMSci**: The [Qwen2-VL-7B model](https://huggingface.co/Qwen/Qwen2-VL-7B-Instruct) fine-tuned on our visual instruction-following data. Download the checkpoint [here](https://mmsci.s3.us-east-1.amazonaws.com/qwen2-vl-7b-mmsci.zip). 
+  - **LLaMA2-7B-MMSci**: The [LLaMA2-7B model](meta-llama/Llama-2-7b-hf) with further visual pretrained on our interleaved data, with a CLIP ViT-L/14-336 as the visual encoder and a 2-layer MLP as the projector, following the setup in [VILA](https://github.com/Efficient-Large-Model/VILA). Download the checkpoint [here](https://mmsci.s3.us-east-1.amazonaws.com/llama2-7b-mmsci.zip). 
+  - **Material Generation Lora Weights**: Lora weights for material generation fine-tuning (merge with LLaMA2-7B for inference). Download the checkpoint [here](https://mmsci.s3.us-east-1.amazonaws.com/material-generation-lora.zip).
+  
 ## Dataset
 The mmsci-data directory contains all the necessary data for benchmark evaluation, visual instruction tuning, and pre-training on interleaved data. For detailed information, refer to the [mmsci-data/README.md](./mmsci-data/README.md).
  - **Data Card**: Comprehensive details about our dataset can be found in the  [mmsci-data/DATACARD.md](./mmsci-data/DATACARD.md)
@@ -139,16 +153,6 @@ python basic_eval.py \
         --model_name llama2-7b-mmsci \
         --samples_path ./saved_samples/llama2-7b-mmsci_0.7_0.7.csv
 ```
-
-## Resources
-We provide various downloadable resources for our MMSci project. Below is a list of the available resources and their corresponding download links:
-1. **mmsci-data**: this includes all the data you can download regarding our MMSci data, including: 
-  - **rawdata**: The raw (source) data of our dataset can be download [here](https://mmsci.s3.amazonaws.com/rawdata.zip). 
-  - **benchmark**: The benchmark dataset, including the data for visual instruction tuning, is available for download [here](https://mmsci.s3.amazonaws.com/benchmark.zip). 
-  - **pretraindata**: Interleaved data formatted for pre-training on multimodal datasets can be downloaded [here](https://mmsci.s3.amazonaws.com/pretraindata.zip).
-
-2. **checkpoints**: 
-  - **LLaVA-Next-MMSci**: The LLaVA-Next model fine-tuned on our visual instruction-following data is available [here](https://mmsci.s3.amazonaws.com/checkpoints.zip).
 
 ## Acknowledgement
 We gratefully acknowledge the following projects and codebases that have significantly contributed to our work:
